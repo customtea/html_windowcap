@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<!--Refer : https://codepen.io/takeyuweb/pen/wvMGvWp-->
+
+<head>
+    <meta charset="UTF-8">
+    <title>Window</title>
+    <style type="text/css">
+        .capwindow {
+            display: flex;
+        }
+        .capwindow video,
+        .capwindow canvas{
+            position: absolute;
+            top:0;
+            bottom: 0px;
+            left: 0;
+            right: 0;
+            margin:auto;
+            height: 100%;
+            border: 0px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="start-button">Capture</button>
+    <div class="capwindow">
+        <div id="capture-stream"></div>
+    </div>
+    <script>
+        const startCapturingButton = document.querySelector("#start-button");
+        const videoContainer = document.querySelector("div#capture-stream");
+        let captureStream = null;
+        startCapturingButton.addEventListener('click', async () => {
+            captureStream = await navigator.mediaDevices.getDisplayMedia({ audio: false, video: true });
+            videoContainer.innerHTML = '';
+            if (captureStream) {
+                const video = document.createElement("video");
+                video.autoplay = true;
+                video.srcObject = captureStream;
+                videoContainer.appendChild(video);
+            }
+        });
+    </script>
+</body>
+
+</html>
